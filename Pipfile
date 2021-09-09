@@ -9,6 +9,7 @@ pydantic = "*"
 transformers = "*"
 pytorch-lightning = "*"
 nlp = "*"
+ipython = "*"
 
 [dev-packages]
 black = "==19.10b0"
