@@ -1,9 +1,8 @@
-# import IPython
-# import sh
 import pdb
 
 import nlp
 import pytorch_lightning as pl
+import sh
 import torch as th
 import transformers
 from absl import app, flags, logging
@@ -22,12 +21,8 @@ FLAGS = flags.FLAGS
 
 bert_config = BertConfig.from_pretrained('bert-base-uncased', output_hidden_states=True, output_attentions=True)
 
-# sh.rm('-r', '-f', 'logs')
-# sh.mkdir('logs')
-
-
-
-#  import Ipython; IPython.embed() ; exit(1)
+sh.rm('-r', '-f', 'logs')
+sh.mkdir('logs')
 
 FLAGS = flags.FLAGS
 class IMDBSentimentClassifier(pl.LightningModule):
@@ -45,9 +40,7 @@ class IMDBSentimentClassifier(pl.LightningModule):
                     max_length=FLAGS.seq_length, 
                     pad_to_max_length=True)['input_ids']
             return x
-       
    
-
         def _prepare_ds(split):
             ds = nlp.load_dataset('imdb', split=f'{split}[:{FLAGS.batch_size if FLAGS.debug else f"{FLAGS.percent}%"}]')
             ds = ds.map(_tokenize, batched=True)
@@ -67,7 +60,7 @@ class IMDBSentimentClassifier(pl.LightningModule):
     def training_step(self, batch, batch_idx):
         logits = self.forward(batch['input_ids'])
         loss = self.loss(logits, batch['label']).mean()
-        # return {'loss': loss, 'log': {'train_loss': loss}}
+        return {'loss': loss, 'log': {'train_loss': loss}}
         # pdb.set_trace()
 
     def validation_step(self, batch, batch_idx):
@@ -78,11 +71,11 @@ class IMDBSentimentClassifier(pl.LightningModule):
         # pdb.set_trace()
 
     def validation_epoch_end(self, outputs):
-        # loss = th.cat([o['loss'] for o in outputs], 0).mean()
-        # acc = th.cat([o['acc'] for o in outputs], 0).mean()
-        # out = {'val_loss': loss, 'val_acc': acc}
-        # return {**out, 'log': out}
-        pdb.set_trace()
+        loss = th.cat([o['loss'] for o in outputs], 0).mean()
+        acc = th.cat([o['acc'] for o in outputs], 0).mean()
+        out = {'val_loss': loss, 'val_acc': acc}
+        return {**out, 'log': out}
+        # pdb.set_trace()
 
     def train_dataloader(self):
         return th.utils.data.DataLoader(
@@ -115,8 +108,8 @@ def main(__):
         default_root_dir='logs',
         gpus=(1 if th.cuda.is_available() else 0),
         max_epochs=FLAGS.epochs,
-        # fast_dev_run=FLAGS.debug,
-        # logger=pl.loggers.TensorBoardLogger('logs/', name='imdb', version=0),
+        fast_dev_run=FLAGS.debug,
+        logger=pl.loggers.TensorBoardLogger('logs/', name='imdb', version=0),
     )
     trainer.fit(model)
 

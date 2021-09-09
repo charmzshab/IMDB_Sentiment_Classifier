@@ -10,6 +10,8 @@ transformers = "*"
 pytorch-lightning = "*"
 nlp = "*"
 ipython = "*"
+sh = "*"
+tensorboard = "*"
 
 [dev-packages]
 black = "==19.10b0"

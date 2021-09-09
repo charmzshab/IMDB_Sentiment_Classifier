@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "512ff73b57920c10eda0edde39cba65d4d23f7ccf3037b9bf8723f70ac4ce84b"
+            "sha256": "eec5ef71acdedb20102c7057f45bfd5f11defb44b90d69ab96adbd846aeb638c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -744,6 +744,14 @@
             ],
             "version": "==0.0.45"
         },
+        "sh": {
+            "hashes": [
+                "sha256:4921ac9c1a77ec8084bdfaf152fe14138e2b3557cc740002c1a97076321fce8a",
+                "sha256:9d7bd0334d494b2a4609fe521b2107438cdb21c0e469ffeeb191489883d6fe0d"
+            ],
+            "index": "pypi",
+            "version": "==1.14.2"
+        },
         "six": {
             "hashes": [
                 "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
@@ -756,7 +764,7 @@
             "hashes": [
                 "sha256:f7dac4cdfb52d14c9e3f74585ce2aaf8e6203620a864e51faf84988b09f7bbdb"
             ],
-            "markers": "python_version >= '3.6'",
+            "index": "pypi",
             "version": "==2.6.0"
         },
         "tensorboard-data-server": {
